@@ -1,9 +1,22 @@
 <?php
 
-$origin = "/var/www/html";
-$target = "/var/www/html;
+$origin = "/var/www/html/";
+$target = "/var/www/html/";
 
-$private_key = "/root/.ssh/user.pem";
-$host = "192.168.1.10x";
-$username = 'user';
+$private_key = "/home/admin/.ssh/osamuya.pem";
+$host = "10.0.1.194";
+$username = 'admin';
 
+/*
+rsync -a /var/www/migration /var/www/migration2
+
+rsync -avz --delete -e "ssh username@example.com" /from /to
+
+
+ssh admin@10.0.1.194 -i /home/admin/.ssh/osamuya.pem
+
+
+
+rsync -avz --delete -e "ssh -i /home/admin/.ssh/osamuya.pem -p 22" /var/www/migration admin@10.0.1.194:/var/www/migration2
+
+*/

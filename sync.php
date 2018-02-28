@@ -20,13 +20,13 @@ git log
 require "./config.php";
 require __DIR__."/vendor/autoload.php";
 use AFM\Rsync\Rsync;
+//use AFM\Rsync\SSH;
 
-$origin = "/var/www/html";
-$target = "/var/www/html2";
+
 
 /* rsync options: albertofem/rsync-lib/src/AFM/Rsync/Rsync.php:132 */
 /* ssh opsions: albertofem/rsync-lib/src/AFM/Rsync/SSH.php:53 */
-$config = array(
+$rsync_config = array(
     'delete_from_target' => true,
     'excludeFrom' => './exclude_list',
     'ssh' => array(
@@ -37,12 +37,56 @@ $config = array(
     )
 );
 
-$rsync = new Rsync($config);
+$rsync = new Rsync($rsync_config);
 
 // change options programatically
 $rsync->setFollowSymlinks(false);
 
 $rsync->sync($origin, $target);
+
+
+
+
+$mysql_config = array(
+    'mysql_user_and_passwd' => '/var/www/synchronous/mysql_config',
+    'host' => 'stg-sbaw-mysql-master.chwukteeonrj.ap-northeast-1.rds.amazonaws.com',
+    'tmp_storage_destination' => '/tmp/mysqldumpfile.sql',
+);
+
+/*mysql*/
+
+
+// mysql -h stg-sbaw-mysql-master.chwukteeonrj.ap-northeast-1.rds.amazonaws.com -u cms_user -pm18UghsN13F -P 3306 sbaw_cms > sbaw_cms.sql
+
+$mysqldump_command =
+    'mysqldump --defaults-extra-file='
+    .$mysql_config["mysql_user_and_passwd"]
+    .' -h '
+    .$mysql_config["host"]
+    .' > '
+    .$mysql_config["tmp_storage_destination"];
+$shell_exec_return = shell_exec($mysqldump_command);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -167,7 +167,7 @@ class SSH extends AbstractProtocol
         if ($hostConnection) {
             $command->addParameter($this->getHostConnection());
         }
-
+        
         return $command;
     }
 
