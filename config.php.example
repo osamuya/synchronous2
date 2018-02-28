@@ -1,0 +1,9 @@
+<?php
+
+$origin = "/var/www/html";
+$target = "/var/www/html;
+
+$private_key = "/root/.ssh/user.pem";
+$host = "192.168.1.10x";
+$username = 'user';
+
