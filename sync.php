@@ -72,7 +72,7 @@ $rsync->sync(__DIR__.'/'.$mysql_config["dumpfile_name"], $my_target.'/'.$mysql_c
 
 /* Restore */
 var_dump($rsync_config["ssh"]["port"]);
-$restore_command = '"cd /home/users/2/pupu.jp-omnioo/web/101.nowhite.site; touch text2.txt"';
+$restore_command = '"cd /var/www/; touch text2.txt"';
 
 $mysql_restore_command = 'ssh '
     .$rsync_config["ssh"]["username"].'@'

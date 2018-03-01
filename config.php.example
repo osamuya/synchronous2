@@ -1,8 +1,16 @@
 <?php
 
+/* Source files */
 $origin = "/var/www/html/";
 $target = "/var/www/html/";
 
 $private_key = "/home/user/.ssh/sample.pem";
 $host = "192.168.2.3";
 $username = 'user';
+$port = 22;
+
+/* MySQL Dump & Restore */
+$my_target = "/home/user";
+$my_config = "/home/user/mysql_config";
+$my_host = "localhost";
+$my_dbname = "database_name";
