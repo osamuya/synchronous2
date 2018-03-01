@@ -24,8 +24,11 @@ use AFM\Rsync\Rsync;
 
 
 
+/************************/
+/* Rsync Wordpress file */
+/************************/
 /* rsync options: albertofem/rsync-lib/src/AFM/Rsync/Rsync.php:132 */
-/* ssh opsions: albertofem/rsync-lib/src/AFM/Rsync/SSH.php:53 */
+
 $rsync_config = array(
     'delete_from_target' => true,
     'excludeFrom' => './exclude_list',
@@ -33,44 +36,54 @@ $rsync_config = array(
         'host' => $host,
         'private_key' => $private_key,
         'username' => $username,
-        'port' => 22,
+        'port' => $port,
     )
 );
 
 $rsync = new Rsync($rsync_config);
-
-// change options programatically
 $rsync->setFollowSymlinks(false);
-
 $rsync->sync($origin, $target);
 
 
 
-
+/***********************/
+/* MySQL Dump & Resore */
+/***********************/
 $mysql_config = array(
-    'mysql_user_and_passwd' => '/var/www/synchronous/mysql_config',
-    'host' => 'stg-sbaw-mysql-master.chwukteeonrj.ap-northeast-1.rds.amazonaws.com',
-    'tmp_storage_destination' => '/tmp/mysqldumpfile.sql',
+    'mysql_user_and_passwd' => $my_config,
+    'mysql_host' => $my_host,
+    'tmp_storage_destination' => __DIR__,
+    'dumpfile_name' => 'mqd6pbempNyU.sql',
 );
-
-/*mysql*/
-
-
-// mysql -h stg-sbaw-mysql-master.chwukteeonrj.ap-northeast-1.rds.amazonaws.com -u cms_user -pm18UghsN13F -P 3306 sbaw_cms > sbaw_cms.sql
 
 $mysqldump_command =
     'mysqldump --defaults-extra-file='
     .$mysql_config["mysql_user_and_passwd"]
     .' -h '
-    .$mysql_config["host"]
+    .$mysql_config["mysql_host"].' '.$my_dbname
     .' > '
-    .$mysql_config["tmp_storage_destination"];
+    .$mysql_config["tmp_storage_destination"].'/'.$mysql_config["dumpfile_name"];
+
 $shell_exec_return = shell_exec($mysqldump_command);
 
 
+/* Transfar */
+$rsync->sync(__DIR__.'/'.$mysql_config["dumpfile_name"], $my_target.'/'.$mysql_config["dumpfile_name"]);
+
+/* Restore */
+var_dump($rsync_config["ssh"]["port"]);
+$restore_command = '"cd /home/users/2/pupu.jp-omnioo/web/101.nowhite.site; touch text2.txt"';
+
+$mysql_restore_command = 'ssh '
+    .$rsync_config["ssh"]["username"].'@'
+    .$rsync_config["ssh"]["host"].' -p '
+    .$rsync_config["ssh"]["port"].' -i '
+    .$rsync_config["ssh"]["private_key"].' '
+    .$restore_command;
+shell_exec($mysql_restore_command);
 
 
-
+/*後処理*/
 
 
 
