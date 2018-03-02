@@ -84,7 +84,7 @@ echo "mysqlfile transfar ok.\n";
 //$restore_command = '"cd '.$my_target.'; mysql --defaults-extra-file=/var/www/synchronous/mysql_config -P 3306 -h prod-sbaw-mysql-master.chwukteeonrj.ap-northeast-1.rds.amazonaws.com sbaw_cms < mqd6pbempNyU.sql"';
 $restore_command = '"cd '
     .$mysql_remote_config["tmp_storage_destination"].'; mysql --defaults-extra-file='
-    .$mysql_config["mysql_user_and_passwd"]
+    .$mysql_remote_config["mysql_user_and_passwd"]
     .' -P 3306 -h '.$mysql_remote_config["mysql_host"].' '
     .$mysql_remote_config["mysql_databasename"].' < '
     .$mysql_config["dumpfile_name"]
