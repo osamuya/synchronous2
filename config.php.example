@@ -13,12 +13,12 @@ $port = 22;
 /* origin */
 $my_target = "/tmp";
 $my_config = "/var/www/synchronous/mysql_config";
-$my_host = "remotehost.example.com";
+$my_host = "localhost";
 $my_dbname = "stg_sample_db";
 
 /* target */
 //$my_t_target = "/var/www";
 $my_t_target = "/tmp";
 $my_t_config = "/var/www/synchronous/mysql_config";
-$my_t_host = "stg-sbaw-mysql-master.chwukteeonrj.ap-northeast-1.rds.amazonaws.com";
+$my_t_host = "remotehost.example.com";
 $my_t_dbname = "prd_sample_db";
