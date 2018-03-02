@@ -1,5 +1,7 @@
 {
     "require": {
-        "albertofem/rsync-lib": "1.0.0"
+        "albertofem/rsync-lib": "1.0.0",
+        "monolog/monolog": "1.23.0",
+        "nesbot/carbon": "1.21.0"
     }
 }
