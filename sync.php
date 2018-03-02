@@ -21,8 +21,7 @@ require "./config.php";
 require __DIR__."/vendor/autoload.php";
 use AFM\Rsync\Rsync;
 //use AFM\Rsync\SSH;
-
-
+echo "requre needed files.\n";
 
 /************************/
 /* Rsync Wordpress file */
@@ -44,7 +43,7 @@ $rsync = new Rsync($rsync_config);
 $rsync->setFollowSymlinks(false);
 $rsync->sync($origin, $target);
 
-
+echo "rsync ok.\n";
 
 /***********************/
 /* MySQL Dump & Resore */
@@ -54,25 +53,44 @@ $mysql_config = array(
     'mysql_host' => $my_host,
     'tmp_storage_destination' => __DIR__,
     'dumpfile_name' => 'mqd6pbempNyU.sql',
+    'mysql_databasename' => $my_dbname,
+);
+$mysql_remote_config = array(
+    'mysql_user_and_passwd' => $my_t_config,
+    'mysql_host' => $my_t_host,
+    'tmp_storage_destination' => $my_t_target,
+    'mysql_databasename' => $my_t_dbname,
 );
 
+/* Dump */
 $mysqldump_command =
     'mysqldump --defaults-extra-file='
     .$mysql_config["mysql_user_and_passwd"]
     .' -h '
-    .$mysql_config["mysql_host"].' '.$my_dbname
+    .$mysql_config["mysql_host"].' '.$mysql_config["mysql_databasename"]
     .' > '
     .$mysql_config["tmp_storage_destination"].'/'.$mysql_config["dumpfile_name"];
 
 $shell_exec_return = shell_exec($mysqldump_command);
 
+echo "mysqldump ok.\n";
 
 /* Transfar */
 $rsync->sync(__DIR__.'/'.$mysql_config["dumpfile_name"], $my_target.'/'.$mysql_config["dumpfile_name"]);
+echo "mysqlfile transfar ok.\n";
+
 
 /* Restore */
-var_dump($rsync_config["ssh"]["port"]);
-$restore_command = '"cd /var/www/; touch text2.txt"';
+//$restore_command = '"cd '.$my_target.'; mysql --defaults-extra-file=/var/www/synchronous/mysql_config -P 3306 -h prod-sbaw-mysql-master.chwukteeonrj.ap-northeast-1.rds.amazonaws.com sbaw_cms < mqd6pbempNyU.sql"';
+$restore_command = '"cd '
+    .$mysql_remote_config["tmp_storage_destination"].'; mysql --defaults-extra-file='
+    .$mysql_config["mysql_user_and_passwd"]
+    .' -P 3306 -h '.$mysql_remote_config["mysql_host"].' '
+    .$mysql_remote_config["mysql_databasename"].' < '
+    .$mysql_config["dumpfile_name"]
+    .'"';
+
+//var_dump($restore_command);
 
 $mysql_restore_command = 'ssh '
     .$rsync_config["ssh"]["username"].'@'
@@ -80,10 +98,58 @@ $mysql_restore_command = 'ssh '
     .$rsync_config["ssh"]["port"].' -i '
     .$rsync_config["ssh"]["private_key"].' '
     .$restore_command;
+//var_dump($mysql_restore_command);
 shell_exec($mysql_restore_command);
 
+echo "mysql restore ok.\n";
 
 /*後処理*/
+echo "rsync end\n";
+
+
+
+/*
+--defaults-extra-file='
+    .$mysql_config["mysql_user_and_passwd"]
+    
+mysql -h prod-sbaw-mysql-master.chwukteeonrj.ap-northeast-1.rds.amazonaws.com -u cms_u ser -p -P 3306 sbaw_cms < mqd6pbempNyU.sql
+m18UghsN13F
+
+kore
+mysql --defaults-extra-file=/var/www/synchronous/mysql_config -P 3306 -h prod-sbaw-mysql-master.chwukteeonrj.ap-northeast-1.rds.amazonaws.com sbaw_cms < mqd6pbempNyU.sql
+
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
