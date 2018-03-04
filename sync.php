@@ -1,4 +1,5 @@
 <?php
+ini_set( 'display_errors', 1 );
 /**
 Packagist@ https://packagist.org/packages/albertofem/rsync-lib
 Github@ https://github.com/albertofem/rsync-lib
@@ -17,10 +18,14 @@ git commit -m "install albertofem/rsync-lib"
 git log
 
 **/
-require "./config.php";
+
+
+require __DIR__."/config.php";
 require __DIR__."/vendor/autoload.php";
 use AFM\Rsync\Rsync;
 //use AFM\Rsync\SSH;
+
+echo posix_getpwuid(posix_geteuid())['name']."\n";
 echo "requre needed files.\n";
 
 /************************/
