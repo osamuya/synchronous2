@@ -2,4 +2,7 @@ config.php
 *sql
 mysql_config
 exclude_list
+
 vendor/
+
+composer.phar

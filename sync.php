@@ -1,4 +1,5 @@
 <?php
+ini_set( 'display_errors', 1 );
 /**
 Packagist@ https://packagist.org/packages/albertofem/rsync-lib
 Github@ https://github.com/albertofem/rsync-lib
@@ -17,10 +18,14 @@ git commit -m "install albertofem/rsync-lib"
 git log
 
 **/
-require "./config.php";
+
+
+require __DIR__."/config.php";
 require __DIR__."/vendor/autoload.php";
 use AFM\Rsync\Rsync;
 //use AFM\Rsync\SSH;
+
+echo posix_getpwuid(posix_geteuid())['name']."\n";
 echo "requre needed files.\n";
 
 /************************/
@@ -105,21 +110,6 @@ echo "mysql restore ok.\n";
 
 /*後処理*/
 echo "rsync end\n";
-
-
-
-/*
---defaults-extra-file='
-    .$mysql_config["mysql_user_and_passwd"]
-    
-mysql -h prod-sbaw-mysql-master.chwukteeonrj.ap-northeast-1.rds.amazonaws.com -u cms_u ser -p -P 3306 sbaw_cms < mqd6pbempNyU.sql
-m18UghsN13F
-
-kore
-mysql --defaults-extra-file=/var/www/synchronous/mysql_config -P 3306 -h prod-sbaw-mysql-master.chwukteeonrj.ap-northeast-1.rds.amazonaws.com sbaw_cms < mqd6pbempNyU.sql
-
-
-*/
 
 
 
