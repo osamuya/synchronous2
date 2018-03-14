@@ -113,21 +113,6 @@ echo "rsync end\n";
 
 
 
-/*
---defaults-extra-file='
-    .$mysql_config["mysql_user_and_passwd"]
-    
-mysql -h prod-sbaw-mysql-master.chwukteeonrj.ap-northeast-1.rds.amazonaws.com -u cms_u ser -p -P 3306 sbaw_cms < mqd6pbempNyU.sql
-m18UghsN13F
-
-kore
-mysql --defaults-extra-file=/var/www/synchronous/mysql_config -P 3306 -h prod-sbaw-mysql-master.chwukteeonrj.ap-northeast-1.rds.amazonaws.com sbaw_cms < mqd6pbempNyU.sql
-
-
-*/
-
-
-
 
 
 
