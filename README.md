@@ -7,11 +7,12 @@ Synchronize the source with Rsync, and migrate the database with MySQLDump and r
 ````
 git clone git@github.com:osamuya/synchronous2.git
 ````
-or I download it myself
+or you download it myself.
 
 ## Composer
 
 ````
+cd synchronous2-master
 curl -s http://getcomposer.org/installer | php
 ````
 or
@@ -24,4 +25,6 @@ php composer-setup.php
 ````
 php composer.phar install
 ````
+
+## Config
 
